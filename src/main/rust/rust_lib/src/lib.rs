@@ -1,37 +1,105 @@
-// This is the interface to the JVM that we'll call the majority of our
-// methods on.
 use jni::JNIEnv;
+use jni::objects::{JClass, JObject, JObjectArray, JString};
+use jni::sys::{jboolean, jbyte, jdouble, jfloat, jint, jintArray, jlong, jshort};
 
-// These objects are what you should use as arguments to your native
-// function. They carry extra lifetime information to prevent them escaping
-// this context and getting used after being GC'd.
-use jni::objects::{JClass, JString};
-
-// This is just a pointer. We'll be returning it from our function. We
-// can't return one of the objects with lifetime information because the
-// lifetime checker won't let us.
-use jni::sys::jstring;
-
-// This keeps Rust from "mangling" the name and making it unique for this
-// crate.
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_hello<'local>(mut env: JNIEnv<'local>,
-// This is the class that owns our static method. It's not going to be used,
-// but still must be present to match the expected signature of a static
-// native method.
-                                                     class: JClass<'local>,
-                                                     input: JString<'local>)
-                                                     -> jstring {
-    // First, we have to get the string out of Java. Check out the `strings`
-    // module for more info on how this works.
-    let input: String =
-        env.get_string(&input).expect("Couldn't get java string!").into();
+pub extern "system" fn Java_org_example_Main_printNumber(_env: JNIEnv,
+                                                         _class: JClass,
+                                                         number: jint) {
+    println!("{}", number);
+}
 
-    // Then we have to create a new Java string to return. Again, more info
-    // in the `strings` module.
-    let output = env.new_string(format!("Hello, {}!", input))
-        .expect("Couldn't create java string!");
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printBoolean(_env: JNIEnv,
+                                                          _class: JClass,
+                                                          value: jboolean) {
+    println!("{}", value);
+}
 
-    // Finally, extract the raw pointer to return.
-    output.into_raw()
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printByte(_env: JNIEnv,
+                                                       _class: JClass,
+                                                       value: jbyte) {
+    println!("{}", value);
+}
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printShort(_env: JNIEnv,
+                                                        _class: JClass,
+                                                        value: jshort) {
+    println!("{}", value);
+}
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printLong(_env: JNIEnv,
+                                                       _class: JClass,
+                                                       value: jlong) {
+    println!("{}", value);
+}
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printFloat(_env: JNIEnv,
+                                                        _class: JClass,
+                                                        value: jfloat) {
+    println!("{}", value);
+}
+
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printDouble(_env: JNIEnv,
+                                                         _class: JClass,
+                                                         value: jdouble) {
+    println!("{}", value);
+}
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printString(mut env: JNIEnv,
+                                                         _class: JClass,
+                                                         value: JString) {
+    let string_value: String = env.get_string(&value).expect("Error converting string").into();
+    println!("{}", string_value);
+}
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printLowerString<'a>(mut env: JNIEnv<'a>,
+                                                                  _class: JClass,
+                                                                  value: JString<'a>) -> JString<'a> {
+    let string_value: String = env.get_string(&value).expect("Error converting string").into();
+    let lower_string = string_value.to_lowercase();
+    let output = env.new_string(lower_string).expect("Error while creating lowercase string");
+    output
+}
+
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printObject(mut env: JNIEnv,
+                                                         _class: JClass,
+                                                         currency: JObject) {
+    let result = env.call_method(&currency, "getValue", "()I", &[]).expect("Error");
+    println!("{:?}", result.i().unwrap());
+    println!("{:?}", currency);
+}
+
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printObjects(mut env: JNIEnv,
+                                                          _class: JClass,
+                                                          currencies: JObjectArray) {
+    let mut currency_number = 0;
+    let mut result;
+    while currency_number < 100000 {
+        let element = env.get_object_array_element(&currencies, currency_number).unwrap();
+        result = env.call_method(&element, "getValue", "()I", &[]).expect("Error");
+        println!("{:?}", result.i().unwrap());
+        currency_number = currency_number + 1;
+    }
+}
+
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_Main_printNumbers(_env: JNIEnv,
+                                                          _class: JClass,
+                                                          numbers: jintArray) {
+    println!("{:?}", numbers);
 }
