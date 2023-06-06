@@ -21,11 +21,11 @@ public class Main {
 
     private static native String printLowerString(String value);
 
-    private static native void printObject(Database database);
+    private static native void printObject(DBdata DBdata);
 
-    private static native void printNumbers(int[] numbers);
+    private static native void printNumbers(int[] numbers, int size);
 
-    private static native void printObjects(Database[] currencies);
+    private static native void printObjects(DBdata[] currencies, int size);
 
     static {
         System.load("/Users/sivasanjayraahulmohan/Desktop/rust/RustJni/jni/src/main/rust/rust_lib/target/release/librust_lib.dylib");
@@ -46,25 +46,27 @@ public class Main {
         main.toLower();
 
         main.passObject();
-        main.passObjects();
+        main.passObjects(100000);
 
-        main.passNumbers();
+        main.passNumbers(100000);
 
-        main.directInvocation();
+        main.directInvocation(100000);
+
     }
 
-    private void directInvocation() {
-        Database[] database = new Database[100000];
+
+    private void directInvocation(int size) {
+        DBdata[] currency = new DBdata[size];
         int currencyNumber = 0;
-        while (currencyNumber < 100000) {
-            database[currencyNumber] = new Database("Siva", currencyNumber);
+        while (currencyNumber < size) {
+            currency[currencyNumber] = new DBdata("Siva", currencyNumber);
             currencyNumber++;
         }
         System.out.println("Direct Object Invocation:");
         currencyNumber = 0;
         long startTime = System.currentTimeMillis();
         while (currencyNumber < 100000) {
-            System.out.println(database[currencyNumber].getValue());
+            System.out.println(currency[currencyNumber].getValue());
             currencyNumber++;
         }
         long endTime = System.currentTimeMillis();
@@ -140,34 +142,39 @@ public class Main {
     }
 
     private void passObject() {
-        Database database = new Database("Rupee", 1);
+        DBdata DBdata = new DBdata("Rupee", 1);
         System.out.println("Object:");
         long startTime = System.currentTimeMillis();
-        Main.printObject(database);
+        Main.printObject(DBdata);
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime);
     }
 
-    private void passNumbers() {
+    private void passNumbers(int size) {
         System.out.println("Integer Array:");
-        int[] arr = new int[1000000];
+        int[] arr = new int[size];
+        int arrPosition = 0;
+        while (arrPosition < size) {
+            arr[arrPosition] = arrPosition;
+            arrPosition++;
+        }
         long startTime = System.currentTimeMillis();
-        Main.printNumbers(arr);
+        Main.printNumbers(arr, size);
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime);
     }
 
 
-    private void passObjects() {
-        Database[] database = new Database[100000];
+    private void passObjects(int size) {
+        DBdata[] DBdata = new DBdata[size];
         int currencyNumber = 0;
-        while (currencyNumber < 100000) {
-            database[currencyNumber] = new Database("Siva", currencyNumber);
+        while (currencyNumber < size) {
+            DBdata[currencyNumber] = new DBdata("Siva", currencyNumber);
             currencyNumber++;
         }
         System.out.println("Objects:");
         long startTime = System.currentTimeMillis();
-        Main.printObjects(database);
+        Main.printObjects(DBdata, size);
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime);
     }

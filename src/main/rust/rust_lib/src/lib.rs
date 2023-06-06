@@ -1,6 +1,6 @@
 use jni::JNIEnv;
-use jni::objects::{JClass, JObject, JObjectArray, JString};
-use jni::sys::{jboolean, jbyte, jdouble, jfloat, jint, jintArray, jlong, jshort};
+use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, ReleaseMode};
+use jni::sys::{jboolean, jbyte, jdouble, jfloat, jint, jlong, jshort};
 
 #[no_mangle]
 pub extern "system" fn Java_org_example_Main_printNumber(_env: JNIEnv,
@@ -85,21 +85,30 @@ pub extern "system" fn Java_org_example_Main_printObject(mut env: JNIEnv,
 #[no_mangle]
 pub extern "system" fn Java_org_example_Main_printObjects(mut env: JNIEnv,
                                                           _class: JClass,
-                                                          currencies: JObjectArray) {
+                                                          currencies: JObjectArray,
+                                                          size: jint) {
     let mut currency_number = 0;
     let mut result;
-    while currency_number < 100000 {
+    while currency_number < size {
         let element = env.get_object_array_element(&currencies, currency_number).unwrap();
         result = env.call_method(&element, "getValue", "()I", &[]).expect("Error");
         println!("{:?}", result.i().unwrap());
         currency_number = currency_number + 1;
     }
+    println!("{:?}", env.get_array_length(&currencies));
 }
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printNumbers(_env: JNIEnv,
+pub extern "system" fn Java_org_example_Main_printNumbers(mut env: JNIEnv,
                                                           _class: JClass,
-                                                          numbers: jintArray) {
+                                                          numbers: JIntArray,
+                                                          size: jint) {
     println!("{:?}", numbers);
+    let mut arr_position: usize = 0;
+    let element = unsafe { env.get_array_elements(&numbers, ReleaseMode::CopyBack).unwrap() };
+    while arr_position < size as usize {
+        println!("{}", element[arr_position]);
+        arr_position = arr_position + 1;
+    }
 }

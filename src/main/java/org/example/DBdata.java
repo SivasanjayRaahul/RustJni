@@ -1,11 +1,11 @@
 package org.example;
 
-public class Database {
+public class DBdata {
 
     private final String key;
     private final int value;
 
-    public Database(String key, int value) {
+    public DBdata(String key, int value) {
         this.key = key;
         this.value = value;
     }
