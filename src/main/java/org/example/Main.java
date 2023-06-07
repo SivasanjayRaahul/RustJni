@@ -25,7 +25,7 @@ public class Main {
 
     private static native void printNumbers(int[] numbers, int size);
 
-    private static native void printObjects(DBdata[] currencies, int size);
+    private static native void printObjects(DBdata[] currencies);
 
     static {
         System.load("/Users/sivasanjayraahulmohan/Desktop/rust/RustJni/jni/src/main/rust/rust_lib/target/release/librust_lib.dylib");
@@ -34,23 +34,23 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.passNumber();
-        main.passBoolean();
-        main.passByte();
-        main.passShort();
-        main.passLong();
-        main.passFloat();
-        main.passDouble();
+//        main.passNumber();
+//        main.passBoolean();
+//        main.passByte();
+//        main.passShort();
+//        main.passLong();
+//        main.passFloat();
+//        main.passDouble();
 
-        main.passString();
-        main.toLower();
-
-        main.passObject();
+//        main.passString();
+//        main.toLower();
+//
+//        main.passObject();
         main.passObjects(100000);
 
-        main.passNumbers(100000);
+//        main.passNumbers(100000);
 
-        main.directInvocation(100000);
+//        main.directInvocation(100000);
 
     }
 
@@ -173,8 +173,12 @@ public class Main {
             currencyNumber++;
         }
         System.out.println("Objects:");
+        int iterations = 0;
         long startTime = System.currentTimeMillis();
-        Main.printObjects(DBdata, size);
+        while (iterations < 100000000) {
+            Main.printObjects(DBdata);
+            iterations++;
+        }
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime);
     }
@@ -188,6 +192,6 @@ public class Main {
     }
 
     private static void printTimeDifference(long startTime, long endTime) {
-        System.out.println("timeTaken in milli sec: " + (endTime - startTime));
+        System.out.println("timeTaken in nano sec: " + (endTime - startTime) * 1000);
     }
 }

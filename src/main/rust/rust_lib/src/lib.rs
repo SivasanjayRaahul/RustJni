@@ -85,17 +85,17 @@ pub extern "system" fn Java_org_example_Main_printObject(mut env: JNIEnv,
 #[no_mangle]
 pub extern "system" fn Java_org_example_Main_printObjects(mut env: JNIEnv,
                                                           _class: JClass,
-                                                          currencies: JObjectArray,
-                                                          size: jint) {
-    let mut currency_number = 0;
-    let mut result;
-    while currency_number < size {
-        let element = env.get_object_array_element(&currencies, currency_number).unwrap();
-        result = env.call_method(&element, "getValue", "()I", &[]).expect("Error");
-        println!("{:?}", result.i().unwrap());
-        currency_number = currency_number + 1;
-    }
-    println!("{:?}", env.get_array_length(&currencies));
+                                                          currencies: JObjectArray
+                                                          ) {
+    // let mut currency_number = 0;
+    // let mut result;
+    // while currency_number < size {
+    //     let element = env.get_object_array_element(&currencies, currency_number).unwrap();
+    //     result = env.call_method(&element, "getValue", "()I", &[]).expect("Error");
+    //     println!("{:?}", result.i().unwrap());
+    //     currency_number = currency_number + 1;
+    // }
+    // println!("{:?}", env.get_array_length(&currencies));
 }
 
 
