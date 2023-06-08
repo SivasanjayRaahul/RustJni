@@ -99,4 +99,16 @@ public class TestNativeMethodArgumentPass {
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime, "Objects Array");
     }
+
+    @Test
+    void shouldReturnStringValue() {
+        int iterations = 0;
+        long startTime = System.currentTimeMillis();
+        while (iterations < 100000000) {
+            NativeInvocation.getString();
+            iterations++;
+        }
+        long endTime = System.currentTimeMillis();
+        printTimeDifference(startTime, endTime, "getting a string");
+    }
 }

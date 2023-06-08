@@ -16,6 +16,8 @@ public class NativeInvocation {
 
     public static native void passObjectArray(DBdata[] dBdata);
 
+    public static native void getString();
+
     private static native void printString(String value);
 
     private static native String printLowerString(String value);
