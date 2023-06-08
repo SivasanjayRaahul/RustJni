@@ -1,60 +1,45 @@
 use jni::JNIEnv;
 use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, ReleaseMode};
-use jni::sys::{jboolean, jbyte, jdouble, jfloat, jint, jlong, jshort};
+use jni::sys::{jdouble, jint};
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printNumber(_env: JNIEnv,
-                                                         _class: JClass,
-                                                         number: jint) {
-    println!("{}", number);
-}
+pub extern "system" fn Java_org_example_NativeInvocation_passDouble__D(_env: JNIEnv,
+                                                           _class: JClass,
+                                                           _value: jdouble) {}
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printBoolean(_env: JNIEnv,
-                                                          _class: JClass,
-                                                          value: jboolean) {
-    println!("{}", value);
-}
-
+pub extern "system" fn Java_org_example_NativeInvocation_passDouble__DDDDDDDD(_env: JNIEnv,
+                                                                  _class: JClass,
+                                                                  _value_one: jdouble, _value_two: jdouble, _value_three: jdouble, _value_four: jdouble, _value_five: jdouble, _value_six: jdouble, _value_seven: jdouble, _value_eight: jdouble) {}
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printByte(_env: JNIEnv,
-                                                       _class: JClass,
-                                                       value: jbyte) {
-    println!("{}", value);
-}
+pub extern "system" fn Java_org_example_NativeInvocation_passString__Ljava_lang_String_2(_env: JNIEnv,
+                                                                             _class: JClass,
+                                                                             _value: JString) {}
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printShort(_env: JNIEnv,
-                                                        _class: JClass,
-                                                        value: jshort) {
-    println!("{}", value);
-}
-
-#[no_mangle]
-pub extern "system" fn Java_org_example_Main_printLong(_env: JNIEnv,
-                                                       _class: JClass,
-                                                       value: jlong) {
-    println!("{}", value);
-}
-
-#[no_mangle]
-pub extern "system" fn Java_org_example_Main_printFloat(_env: JNIEnv,
-                                                        _class: JClass,
-                                                        value: jfloat) {
-    println!("{}", value);
-}
+pub extern "system" fn Java_org_example_NativeInvocation_passString__Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2(_env: JNIEnv, _class: JClass, _value_one: JString, _value_two: JString, _value_three: JString, _value_four: JString, _value_five: JString, _value_six: JString, _value_seven: JString, _value_eight: JString) {}
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printDouble(_env: JNIEnv,
-                                                         _class: JClass,
-                                                         value: jdouble) {
-    println!("{}", value);
-}
+pub extern "system" fn Java_org_example_NativeInvocation_passObject__Lorg_example_DBdata_2(_env: JNIEnv,
+                                                                               _class: JClass,
+                                                                               _db_data: JObject) {}
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printString(mut env: JNIEnv,
+pub extern "system" fn Java_org_example_NativeInvocation_passObject__Lorg_example_DBdata_2Lorg_example_DBdata_2Lorg_example_DBdata_2Lorg_example_DBdata_2Lorg_example_DBdata_2Lorg_example_DBdata_2Lorg_example_DBdata_2Lorg_example_DBdata_2
+(_env: JNIEnv,
+ _class: JClass,
+ _db_data: JObject, _db_data_one: JObject, _db_data_two: JObject, _db_data_three: JObject, _db_data_four: JObject, _db_data_five: JObject, _db_data_seven: JObject, _db_data_eight: JObject) {}
+
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_NativeInvocation_passObjectArray(_env: JNIEnv,
+                                                             _class: JClass,
+                                                             _db_array: JObjectArray) {}
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_NativeInvocation_printString(mut env: JNIEnv,
                                                          _class: JClass,
                                                          value: JString) {
     let string_value: String = env.get_string(&value).expect("Error converting string").into();
@@ -62,7 +47,7 @@ pub extern "system" fn Java_org_example_Main_printString(mut env: JNIEnv,
 }
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printLowerString<'a>(mut env: JNIEnv<'a>,
+pub extern "system" fn Java_org_example_NativeInvocation_printLowerString<'a>(mut env: JNIEnv<'a>,
                                                                   _class: JClass,
                                                                   value: JString<'a>) -> JString<'a> {
     let string_value: String = env.get_string(&value).expect("Error converting string").into();
@@ -73,7 +58,7 @@ pub extern "system" fn Java_org_example_Main_printLowerString<'a>(mut env: JNIEn
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printObject(mut env: JNIEnv,
+pub extern "system" fn Java_org_example_NativeInvocation_printObject(mut env: JNIEnv,
                                                          _class: JClass,
                                                          currency: JObject) {
     let result = env.call_method(&currency, "getValue", "()I", &[]).expect("Error");
@@ -83,10 +68,10 @@ pub extern "system" fn Java_org_example_Main_printObject(mut env: JNIEnv,
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printObjects(mut env: JNIEnv,
+pub extern "system" fn Java_org_example_NativeInvocation_printObjects(mut _env: JNIEnv,
                                                           _class: JClass,
-                                                          currencies: JObjectArray
-                                                          ) {
+                                                          _currencies: JObjectArray,
+) {
     // let mut currency_number = 0;
     // let mut result;
     // while currency_number < size {
@@ -100,7 +85,7 @@ pub extern "system" fn Java_org_example_Main_printObjects(mut env: JNIEnv,
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_Main_printNumbers(mut env: JNIEnv,
+pub extern "system" fn Java_org_example_NativeInvocation_printNumbers(mut env: JNIEnv,
                                                           _class: JClass,
                                                           numbers: JIntArray,
                                                           size: jint) {
