@@ -2,6 +2,8 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class TestNativeMethodArgumentPass {
     public void printTimeDifference(long startTime, long endTime, String type) {
@@ -103,13 +105,15 @@ public class TestNativeMethodArgumentPass {
     @Test
     void shouldReturnStringValue() {
         int iterations = 0;
+        String actualValue = "";
         long startTime = System.currentTimeMillis();
         while (iterations < 100000000) {
-            NativeInvocation.getString();
+            actualValue = NativeInvocation.getString();
             iterations++;
         }
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime, "getting a string");
+        assertEquals("String from native call", actualValue);
     }
 
     @Test
@@ -137,6 +141,6 @@ public class TestNativeMethodArgumentPass {
         NativeInvocation.printObjects(dBdata, 1000000);
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime, "invoke method of objects");
-
     }
+
 }
