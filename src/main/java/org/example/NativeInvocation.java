@@ -18,11 +18,12 @@ public class NativeInvocation {
 
     public static native void getString();
 
+    public static native void printObject(DBdata DBdata);
+
     private static native void printString(String value);
 
     private static native String printLowerString(String value);
 
-    private static native void printObject(DBdata DBdata);
 
     private static native void printObjects(DBdata[] currencies);
 
@@ -30,7 +31,7 @@ public class NativeInvocation {
 
 
     static {
-        System.load("/Users/sivasanjayraahulmohan/Desktop/rust/RustJni/jni/src/main/rust/rust_lib/target/release/librust_lib.dylib");
+        System.load("/home/e4r/workspace/RustJni/src/main/rust/rust_lib/target/release/librust_lib.so");
     }
 
 

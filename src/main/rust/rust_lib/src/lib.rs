@@ -71,8 +71,7 @@ pub extern "system" fn Java_org_example_NativeInvocation_printObject(mut env: JN
                                                                      _class: JClass,
                                                                      currency: JObject) {
     let result = env.call_method(&currency, "getValue", "()I", &[]).expect("Error");
-    println!("{:?}", result.i().unwrap());
-    println!("{:?}", currency);
+    let _value = result.i();
 }
 
 
