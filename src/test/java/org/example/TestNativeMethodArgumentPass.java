@@ -114,7 +114,7 @@ public class TestNativeMethodArgumentPass {
 
     @Test
     void shouldCallJavaMethodFromNativeLibrary() {
-        DBdata dBdata = new DBdata("E4R",100);
+        DBdata dBdata = new DBdata("E4R", 100);
         int iterations = 0;
         long startTime = System.currentTimeMillis();
         while (iterations < 100000000) {
@@ -123,5 +123,20 @@ public class TestNativeMethodArgumentPass {
         }
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime, "invoking a java method");
+    }
+
+    @Test
+    void shouldPassDataObjectArray() {
+        DBdata[] dBdata = new DBdata[1000000];
+        int objectIterator = 0;
+        while (objectIterator < 1000000) {
+            dBdata[objectIterator] = new DBdata("E4R", 100);
+            objectIterator++;
+        }
+        long startTime = System.currentTimeMillis();
+        NativeInvocation.printObjects(dBdata, 1000000);
+        long endTime = System.currentTimeMillis();
+        printTimeDifference(startTime, endTime, "invoke method of objects");
+
     }
 }

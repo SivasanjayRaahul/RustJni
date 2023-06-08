@@ -40,7 +40,7 @@ pub extern "system" fn Java_org_example_NativeInvocation_passObjectArray(_env: J
 
 #[no_mangle]
 pub extern "system" fn Java_org_example_NativeInvocation_getString<'a>(env: JNIEnv<'a>,
-                                                                           _class: JClass<'a>,
+                                                                       _class: JClass<'a>,
 ) -> JString<'a> {
     let output = env.new_string("String from native call").expect("Error while creating lowercase string");
     output
@@ -76,19 +76,18 @@ pub extern "system" fn Java_org_example_NativeInvocation_printObject(mut env: JN
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_NativeInvocation_printObjects(mut _env: JNIEnv,
+pub extern "system" fn Java_org_example_NativeInvocation_printObjects(mut env: JNIEnv,
                                                                       _class: JClass,
-                                                                      _currencies: JObjectArray,
+                                                                      currencies: JObjectArray,
+                                                                      size: jint,
 ) {
-    // let mut currency_number = 0;
-    // let mut result;
-    // while currency_number < size {
-    //     let element = env.get_object_array_element(&currencies, currency_number).unwrap();
-    //     result = env.call_method(&element, "getValue", "()I", &[]).expect("Error");
-    //     println!("{:?}", result.i().unwrap());
-    //     currency_number = currency_number + 1;
-    // }
-    // println!("{:?}", env.get_array_length(&currencies));
+    let mut data_pointer = 0;
+    let mut result;
+    while data_pointer < size {
+        let element = env.get_object_array_element(&currencies, data_pointer).unwrap();
+        result = env.call_method(&element, "getValue", "()I", &[]).expect("Error").i().unwrap();
+        data_pointer = data_pointer + 1;
+    }
 }
 
 

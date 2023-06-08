@@ -20,12 +20,11 @@ public class NativeInvocation {
 
     public static native void printObject(DBdata DBdata);
 
+    public static native void printObjects(DBdata[] dBdata,int size);
+
     private static native void printString(String value);
 
     private static native String printLowerString(String value);
-
-
-    private static native void printObjects(DBdata[] currencies);
 
     private static native void printNumbers(int[] numbers, int size);
 
