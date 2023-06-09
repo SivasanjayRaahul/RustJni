@@ -102,20 +102,4 @@ public class TestNativeMethodArgumentPass {
         printTimeDifference(startTime, endTime, "Objects Array");
     }
 
-
-
-    @Test
-    void shouldPassDataObjectArray() {
-        DBdata[] dBdata = new DBdata[1000000];
-        int objectIterator = 0;
-        while (objectIterator < 1000000) {
-            dBdata[objectIterator] = new DBdata("E4R", 100);
-            objectIterator++;
-        }
-        long startTime = System.currentTimeMillis();
-        NativeInvocation.printObjects(dBdata, 1000000);
-        long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "invoke method of objects");
-    }
-
 }

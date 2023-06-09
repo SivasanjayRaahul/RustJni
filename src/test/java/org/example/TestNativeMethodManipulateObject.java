@@ -39,6 +39,21 @@ public class TestNativeMethodManipulateObject {
         printTimeDifference(startTime, endTime, "invoking a java method");
     }
 
+
+    @Test
+    void shouldAccessValueOfArrayObjectsThroughGetMethod() {
+        DBdata[] dBdata = new DBdata[10000000];
+        int objectIterator = 0;
+        while (objectIterator < 10000000) {
+            dBdata[objectIterator] = new DBdata("E4R", 100);
+            objectIterator++;
+        }
+        long startTime = System.currentTimeMillis();
+        NativeInvocation.printObjects(dBdata, 10000000);
+        long endTime = System.currentTimeMillis();
+        printTimeDifference(startTime, endTime, "invoke method of objects");
+    }
+
     @Test
     void shouldReturnHundredAsDataValueFromNativeWhenTheValueIsChangedInsideNativeCode() {
         int iterations = 0;
