@@ -9,6 +9,7 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/workspace.xml
 *.iws
 *.iml
 *.ipr
@@ -45,4 +46,4 @@ bin/
 *.class
 src/main/rust/rust_lib/target/
 *.h
-.idea/*
+.idea

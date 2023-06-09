@@ -1,5 +1,5 @@
 use jni::JNIEnv;
-use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, ReleaseMode};
+use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, JValue, ReleaseMode};
 use jni::sys::{jdouble, jint};
 
 #[no_mangle]
@@ -103,4 +103,14 @@ pub extern "system" fn Java_org_example_NativeInvocation_printNumbers(mut env: J
         println!("{}", element[arr_position]);
         arr_position = arr_position + 1;
     }
+}
+
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_NativeInvocation_getNewObjectValue(mut env: JNIEnv,
+                                                                           _class: JClass,
+                                                                           data_obj: JObject,
+                                                                           value: jint) -> jint {
+    env.set_field(&data_obj, "value", "I", JValue::from(value)).expect("Error setting field value");
+    env.get_field(&data_obj, "value", "I").expect("Error getting value").i().unwrap()
 }
