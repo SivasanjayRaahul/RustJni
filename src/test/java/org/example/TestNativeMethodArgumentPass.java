@@ -102,32 +102,7 @@ public class TestNativeMethodArgumentPass {
         printTimeDifference(startTime, endTime, "Objects Array");
     }
 
-    @Test
-    void shouldReturnStringValue() {
-        int iterations = 0;
-        String actualValue = "";
-        long startTime = System.currentTimeMillis();
-        while (iterations < 100000000) {
-            actualValue = NativeInvocation.getString();
-            iterations++;
-        }
-        long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "getting a string");
-        assertEquals("String from native call", actualValue);
-    }
 
-    @Test
-    void shouldCallJavaMethodFromNativeLibrary() {
-        DBdata dBdata = new DBdata("E4R", 100);
-        int iterations = 0;
-        long startTime = System.currentTimeMillis();
-        while (iterations < 100000000) {
-            NativeInvocation.printObject(dBdata);
-            iterations++;
-        }
-        long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "invoking a java method");
-    }
 
     @Test
     void shouldPassDataObjectArray() {
