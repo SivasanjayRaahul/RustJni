@@ -22,7 +22,7 @@ public class TestNativeMethodManipulateObject {
             iterations++;
         }
         long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "getting a string");
+        printTimeDifference(startTime, endTime, " new string through JNI function");
         assertEquals("String from native call", actualValue);
     }
 
@@ -36,7 +36,7 @@ public class TestNativeMethodManipulateObject {
             iterations++;
         }
         long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "invoking a java method");
+        printTimeDifference(startTime, endTime, "invoking a getter method");
     }
 
 
@@ -51,7 +51,7 @@ public class TestNativeMethodManipulateObject {
         long startTime = System.currentTimeMillis();
         NativeInvocation.printObjects(dBdata, 10000000);
         long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "invoke method of objects");
+        printTimeDifference(startTime, endTime, "invoke method of object array");
     }
 
     @Test
@@ -64,6 +64,19 @@ public class TestNativeMethodManipulateObject {
         }
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime, "set and get field value");
+        assertEquals(100, dBdata.getValue());
+    }
+
+    @Test
+    void shouldReturnHundredAsDataValueFromNativeWhenTheValueIsChangedInsideNativeCodeThroughSetterAndGetter() {
+        int iterations = 0;
+        long startTime = System.currentTimeMillis();
+        while (iterations < 100000000) {
+            NativeInvocation.getNewObjectValueThroughMethod(dBdata, 100);
+            iterations++;
+        }
+        long endTime = System.currentTimeMillis();
+        printTimeDifference(startTime, endTime, "getter and setter and return");
         assertEquals(100, dBdata.getValue());
     }
 }

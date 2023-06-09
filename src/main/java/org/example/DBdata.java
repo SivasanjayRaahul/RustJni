@@ -3,7 +3,7 @@ package org.example;
 public class DBdata {
 
     private final String key;
-    private final int value;
+    private int value;
 
     public DBdata(String key, int value) {
         this.key = key;
@@ -16,5 +16,9 @@ public class DBdata {
 
     public int getValue() {
         return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

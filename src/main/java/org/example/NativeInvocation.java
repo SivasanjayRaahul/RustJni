@@ -30,6 +30,7 @@ public class NativeInvocation {
 
     private static native void printNumbers(int[] numbers, int size);
 
+    public static native int getNewObjectValueThroughMethod(DBdata dBdata, int value);
 
     static {
         System.load("/home/e4r/workspace/RustJni/src/main/rust/rust_lib/target/release/librust_lib.so");

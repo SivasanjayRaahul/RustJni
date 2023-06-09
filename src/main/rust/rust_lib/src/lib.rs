@@ -114,3 +114,12 @@ pub extern "system" fn Java_org_example_NativeInvocation_getNewObjectValue(mut e
     env.set_field(&data_obj, "value", "I", JValue::from(value)).expect("Error setting field value");
     env.get_field(&data_obj, "value", "I").expect("Error getting value").i().unwrap()
 }
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_NativeInvocation_getNewObjectValueThroughMethod(mut env: JNIEnv,
+                                                                                        _class: JClass,
+                                                                                        data_obj: JObject,
+                                                                                        value: jint) -> jint {
+    env.call_method(&data_obj, "setValue", "(I)V", &[JValue::from(value)]).expect("Error");
+    env.call_method(&data_obj, "getValue", "()I", &[]).expect("Error").i().unwrap()
+}
