@@ -123,3 +123,11 @@ pub extern "system" fn Java_org_example_NativeInvocation_getNewObjectValueThroug
     env.call_method(&data_obj, "setValue", "(I)V", &[JValue::from(value)]).expect("Error");
     env.call_method(&data_obj, "getValue", "()I", &[]).expect("Error").i().unwrap()
 }
+
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_NativeInvocation_getDouble(env: JNIEnv,
+                                                                   _class: JClass,
+) -> jdouble {
+    1.1234
+}
