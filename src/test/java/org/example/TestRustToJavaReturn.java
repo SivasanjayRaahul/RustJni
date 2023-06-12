@@ -48,6 +48,6 @@ public class TestRustToJavaReturn {
         printTimeDifference(startTime, endTime, " getObject", 10000000);
         DBdata dBdata = (DBdata) NativeInvocation.getObject("DBdata", "E4R", 100);
         System.out.println(dBdata.getValue());
+        assertEquals(dBdata.getValue(), 100);
     }
-
 }
