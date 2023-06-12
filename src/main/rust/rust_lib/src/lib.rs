@@ -1,6 +1,5 @@
 use jni::JNIEnv;
-use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, JValue, JValueGen, ReleaseMode};
-use jni::strings::JavaStr;
+use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, JValue, ReleaseMode};
 use jni::sys::{jdouble, jint, jobject};
 
 #[no_mangle]
