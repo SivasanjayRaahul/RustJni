@@ -1,6 +1,7 @@
 use jni::JNIEnv;
-use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, JValue, ReleaseMode};
-use jni::sys::{jdouble, jint};
+use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, JValue, JValueGen, ReleaseMode};
+use jni::strings::JavaStr;
+use jni::sys::{jdouble, jint, jobject};
 
 #[no_mangle]
 pub extern "system" fn Java_org_example_NativeInvocation_passDouble__D(_env: JNIEnv,
@@ -126,8 +127,21 @@ pub extern "system" fn Java_org_example_NativeInvocation_getNewObjectValueThroug
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_NativeInvocation_getDouble(env: JNIEnv,
+pub extern "system" fn Java_org_example_NativeInvocation_getDouble(_env: JNIEnv,
                                                                    _class: JClass,
 ) -> jdouble {
     1.1234
+}
+
+#[no_mangle]
+pub unsafe extern "system" fn Java_org_example_NativeInvocation_getObject(mut env: JNIEnv,
+                                                                          _class: JClass,
+                                                                          class_name: JString,
+                                                                          key: JString,
+                                                                          value: jint,
+) -> jobject {
+    let class_str: String = env.get_string(&class_name).unwrap().into();
+    let class_value = env.find_class("org/example/".to_string() + class_str.as_str()).expect("Error getting class");
+    let key_object = JObject::from_raw(key.as_raw());
+    env.new_object(class_value, "(Ljava/lang/String;I)V", &[JValue::Object(&key_object), JValue::Int(value)]).unwrap().into_raw()
 }

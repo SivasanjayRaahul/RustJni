@@ -34,6 +34,9 @@ public class NativeInvocation {
 
     public static native double getDouble();
 
+    public static native DBdata getObject(String className, String key, int value);
+
+
     static {
         System.load("/home/e4r/workspace/RustJni/src/main/rust/rust_lib/target/release/librust_lib.so");
     }
