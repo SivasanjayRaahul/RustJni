@@ -1,7 +1,6 @@
 package org.example;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestRustToJavaReturn {
@@ -21,5 +20,18 @@ public class TestRustToJavaReturn {
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime, "Get Double");
         assertEquals(NativeInvocation.getDouble(), 1.1234);
+    }
+
+    @Test
+    void shouldReturnStringValue() {
+        int iterations = 0;
+        long startTime = System.currentTimeMillis();
+        while (iterations < 100000000) {
+            NativeInvocation.getString();
+            iterations++;
+        }
+        long endTime = System.currentTimeMillis();
+        printTimeDifference(startTime, endTime, " new string through JNI function");
+        assertEquals("String from native call", NativeInvocation.getString());
     }
 }
