@@ -2,12 +2,44 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestRustToJavaReturn {
 
     public void printTimeDifference(long startTime, long endTime, String type, int iterations) {
         System.out.println("timeTaken for " + type + " in nano sec: " + (float) ((endTime - startTime) * 1000000) / iterations);
+    }
+
+    @Test
+    void shouldReturnTheModifiedIntArray() {
+        int[] arr = new int[3];
+        arr[0] = 1;
+        arr[1] = 1;
+        arr[2] = 1;
+        long startTime = System.currentTimeMillis();
+        NativeInvocation.getModifiedIntArray(arr, 3);
+        long endTime = System.currentTimeMillis();
+        printTimeDifference(startTime, endTime, "Get modified int array", 1);
+        System.out.println("Modified array: " + Arrays.toString(arr));
+        assertEquals(arr[0], 2);
+    }
+
+    @Test
+    void shouldReturnTheSameIntArrayEvenWhenModified() {
+        int[] arr = new int[3];
+        arr[0] = 1;
+        arr[1] = 1;
+        arr[2] = 1;
+        long startTime = System.currentTimeMillis();
+        NativeInvocation.getSameIntArray(arr, 3);
+        long endTime = System.currentTimeMillis();
+        printTimeDifference(startTime, endTime, "Get same int array even though modified", 1);
+        System.out.println("Modified array: " + Arrays.toString(arr));
+        assertNotEquals(arr[0], 2);
+        assertEquals(arr[0], 1);
     }
 
     @Test

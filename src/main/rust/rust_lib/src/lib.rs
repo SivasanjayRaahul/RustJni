@@ -92,15 +92,29 @@ pub extern "system" fn Java_org_example_NativeInvocation_printObjects(mut env: J
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_NativeInvocation_printNumbers(mut env: JNIEnv,
-                                                                      _class: JClass,
-                                                                      numbers: JIntArray,
-                                                                      size: jint) {
+pub extern "system" fn Java_org_example_NativeInvocation_getModifiedIntArray(mut env: JNIEnv,
+                                                                     _class: JClass,
+                                                                     numbers: JIntArray,
+                                                                     size: jint) {
     println!("{:?}", numbers);
     let mut arr_position: usize = 0;
-    let element = unsafe { env.get_array_elements(&numbers, ReleaseMode::CopyBack).unwrap() };
+    let mut element = unsafe { env.get_array_elements(&numbers, ReleaseMode::CopyBack).unwrap() };
     while arr_position < size as usize {
-        println!("{}", element[arr_position]);
+        element[arr_position] = 2;
+        arr_position = arr_position + 1;
+    }
+}
+
+#[no_mangle]
+pub extern "system" fn Java_org_example_NativeInvocation_getSameIntArray(mut env: JNIEnv,
+                                                                             _class: JClass,
+                                                                             numbers: JIntArray,
+                                                                             size: jint) {
+    println!("{:?}", numbers);
+    let mut arr_position: usize = 0;
+    let mut element = unsafe { env.get_array_elements(&numbers, ReleaseMode::NoCopyBack).unwrap() };
+    while arr_position < size as usize {
+        element[arr_position] = 2;
         arr_position = arr_position + 1;
     }
 }

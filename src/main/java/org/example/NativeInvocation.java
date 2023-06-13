@@ -28,7 +28,7 @@ public class NativeInvocation {
 
     private static native String printLowerString(String value);
 
-    private static native void printNumbers(int[] numbers, int size);
+    public static native void getModifiedIntArray(int[] numbers, int size);
 
     public static native int getNewObjectValueThroughMethod(DBdata dBdata, int value);
 
@@ -37,6 +37,8 @@ public class NativeInvocation {
     public static native DBdata getObject(String className, String key, int value);
 
     public static native DBdata[] getObjects(String class_name, String key, int value, int noOfObjects);
+
+    public static native void getSameIntArray(int[] arr, int size);
 
     static {
         System.load("/home/e4r/workspace/RustJni/src/main/rust/rust_lib/target/release/librust_lib.so");
