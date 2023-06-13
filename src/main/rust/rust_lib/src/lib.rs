@@ -1,6 +1,6 @@
 use jni::JNIEnv;
 use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, JValue, ReleaseMode};
-use jni::sys::{jdouble, jint, jobject};
+use jni::sys::{jdouble, jint, jobject, jsize};
 
 #[no_mangle]
 pub extern "system" fn Java_org_example_NativeInvocation_passDouble__D(_env: JNIEnv,
@@ -143,4 +143,33 @@ pub unsafe extern "system" fn Java_org_example_NativeInvocation_getObject(mut en
     let class_value = env.find_class("org/example/".to_string() + class_str.as_str()).expect("Error getting class");
     let key_object = JObject::from_raw(key.as_raw());
     env.new_object(class_value, "(Ljava/lang/String;I)V", &[JValue::Object(&key_object), JValue::Int(value)]).unwrap().into_raw()
+}
+
+#[no_mangle]
+pub unsafe extern "system" fn Java_org_example_NativeInvocation_getObjects(mut env: JNIEnv,
+                                                                           _class: JClass,
+                                                                           class_name: JString,
+                                                                           key: JString,
+                                                                           value: jint,
+                                                                           no_of_objects: jint,
+) -> jobject {
+    let mut object_count: jint = 0;
+
+    let class_str: String = env.get_string(&class_name).unwrap().into();
+    let class = env.find_class("org/example/".to_string() + class_str.as_str()).expect("Error getting class");
+
+    let object_array: JObjectArray = env.new_object_array(no_of_objects, &class, JObject::default()).expect("Error creating object array in rust");
+    let key_object = JObject::from_raw(key.as_raw());
+
+    let mut objects: Vec<JObject> = Vec::new();
+    while object_count < no_of_objects {
+        objects.push(env.new_object(&class, "(Ljava/lang/String;I)V", &[JValue::Object(&key_object), JValue::Int(value)]).unwrap());
+        object_count = object_count + 1;
+    }
+    object_count = 0;
+    while object_count < no_of_objects {
+        env.set_object_array_element(&object_array, object_count, objects.get(object_count as usize).expect("Error getting object from array")).expect("Error pushing object into array");
+        object_count = object_count + 1;
+    }
+    object_array.as_raw()
 }

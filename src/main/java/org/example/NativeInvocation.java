@@ -36,6 +36,7 @@ public class NativeInvocation {
 
     public static native DBdata getObject(String className, String key, int value);
 
+    public static native DBdata[] getObjects(String class_name, String key, int value, int noOfObjects);
 
     static {
         System.load("/home/e4r/workspace/RustJni/src/main/rust/rust_lib/target/release/librust_lib.so");

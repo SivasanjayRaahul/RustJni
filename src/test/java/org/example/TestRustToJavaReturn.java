@@ -50,4 +50,13 @@ public class TestRustToJavaReturn {
         System.out.println(dBdata.getValue());
         assertEquals(dBdata.getValue(), 100);
     }
+
+    @Test
+    void shouldReturnArrayOfJavaObjectsFromRust() {
+        long startTime = System.currentTimeMillis();
+        DBdata[] dBdataArr = NativeInvocation.getObjects("DBdata", "E4R", 100, 10000000);
+        long endTime = System.currentTimeMillis();
+        printTimeDifference(startTime, endTime, "Array of Java Objects from rust", 1);
+        assertEquals(((DBdata) dBdataArr[0]).getValue(), 100);
+    }
 }
