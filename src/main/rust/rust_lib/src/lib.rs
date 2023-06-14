@@ -67,19 +67,19 @@ pub extern "system" fn Java_org_example_NativeInvocation_printLowerString<'a>(mu
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_NativeInvocation_printObject(mut env: JNIEnv,
-                                                                     _class: JClass,
-                                                                     currency: JObject) {
+pub extern "system" fn Java_org_example_NativeInvocation_printObjectValue(mut env: JNIEnv,
+                                                                          _class: JClass,
+                                                                          currency: JObject) {
     let result = env.call_method(&currency, "getValue", "()I", &[]).expect("Error");
-    let _value = result.i();
+    let _value = result.i().unwrap();
 }
 
 
 #[no_mangle]
-pub extern "system" fn Java_org_example_NativeInvocation_printObjects(mut env: JNIEnv,
-                                                                      _class: JClass,
-                                                                      currencies: JObjectArray,
-                                                                      size: jint,
+pub extern "system" fn Java_org_example_NativeInvocation_printObjectsValue(mut env: JNIEnv,
+                                                                           _class: JClass,
+                                                                           currencies: JObjectArray,
+                                                                           size: jint,
 ) {
     let mut data_pointer = 0;
     let mut result;
@@ -93,9 +93,9 @@ pub extern "system" fn Java_org_example_NativeInvocation_printObjects(mut env: J
 
 #[no_mangle]
 pub extern "system" fn Java_org_example_NativeInvocation_getModifiedIntArray(mut env: JNIEnv,
-                                                                     _class: JClass,
-                                                                     numbers: JIntArray,
-                                                                     size: jint) {
+                                                                             _class: JClass,
+                                                                             numbers: JIntArray,
+                                                                             size: jint) {
     println!("{:?}", numbers);
     let mut arr_position: usize = 0;
     let mut element = unsafe { env.get_array_elements(&numbers, ReleaseMode::CopyBack).unwrap() };
@@ -107,9 +107,9 @@ pub extern "system" fn Java_org_example_NativeInvocation_getModifiedIntArray(mut
 
 #[no_mangle]
 pub extern "system" fn Java_org_example_NativeInvocation_getSameIntArray(mut env: JNIEnv,
-                                                                             _class: JClass,
-                                                                             numbers: JIntArray,
-                                                                             size: jint) {
+                                                                         _class: JClass,
+                                                                         numbers: JIntArray,
+                                                                         size: jint) {
     println!("{:?}", numbers);
     let mut arr_position: usize = 0;
     let mut element = unsafe { env.get_array_elements(&numbers, ReleaseMode::NoCopyBack).unwrap() };

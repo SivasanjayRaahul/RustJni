@@ -18,13 +18,11 @@ public class NativeInvocation {
 
     public static native String getString();
 
-    public static native void printObject(DBdata DBdata);
+    public static native void printObjectValue(DBdata DBdata);
 
-    public static native void printObjects(DBdata[] dBdata, int size);
+    public static native void printObjectsValue(DBdata[] dBdata, int size);
 
     public static native int getNewObjectValue(DBdata dBdata, int value);
-
-    private static native void printString(String value);
 
     private static native String printLowerString(String value);
 

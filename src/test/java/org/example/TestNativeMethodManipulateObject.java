@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestNativeMethodManipulateObject {
 
-    public void printTimeDifference(long startTime, long endTime, String type) {
-        System.out.println("timeTaken for " + type + " in nano sec: " + (float) (endTime - startTime) / 100);
+    public void printTimeDifference(long startTime, long endTime, String type, int iterations) {
+        System.out.println("timeTaken for " + type + " in nano sec: " + (float) ((endTime - startTime) * 1000000) / iterations);
     }
 
     private DBdata dBdata = new DBdata("E4R", 5);
@@ -22,7 +22,7 @@ public class TestNativeMethodManipulateObject {
             iterations++;
         }
         long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, " new string through JNI function");
+        printTimeDifference(startTime, endTime, " creating new java string through JNI function", 100000000);
         assertEquals("String from native call", actualValue);
     }
 
@@ -32,11 +32,11 @@ public class TestNativeMethodManipulateObject {
         int iterations = 0;
         long startTime = System.currentTimeMillis();
         while (iterations < 100000000) {
-            NativeInvocation.printObject(dBdata);
+            NativeInvocation.printObjectValue(dBdata);
             iterations++;
         }
         long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "invoking a getter method");
+        printTimeDifference(startTime, endTime, "invoking a getter method of an object", 100000000);
     }
 
 
@@ -49,9 +49,9 @@ public class TestNativeMethodManipulateObject {
             objectIterator++;
         }
         long startTime = System.currentTimeMillis();
-        NativeInvocation.printObjects(dBdata, 10000000);
+        NativeInvocation.printObjectsValue(dBdata, 10000000);
         long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "invoke method of object array");
+        printTimeDifference(startTime, endTime, "invoke get method of object array", 1);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class TestNativeMethodManipulateObject {
             iterations++;
         }
         long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "set and get field value");
+        printTimeDifference(startTime, endTime, "set and get field value", 100000000);
         assertEquals(100, dBdata.getValue());
     }
 
@@ -76,7 +76,7 @@ public class TestNativeMethodManipulateObject {
             iterations++;
         }
         long endTime = System.currentTimeMillis();
-        printTimeDifference(startTime, endTime, "getter and setter and return");
+        printTimeDifference(startTime, endTime, "getter and setter and return", 100000000);
         assertEquals(100, dBdata.getValue());
     }
 }
