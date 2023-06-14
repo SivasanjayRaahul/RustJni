@@ -13,7 +13,7 @@ class TestJavaInvocation {
     }
 
     public void printTimeDifference(long startTime, long endTime, String type) {
-        System.out.println("timeTaken for " + type + " in nano sec: " + (float) (endTime - startTime) / 100);
+        System.out.println("timeTaken for passing " + type + " to java method in nano sec: " + (float) (endTime - startTime) / 100);
     }
 
     @Test
