@@ -37,7 +37,7 @@ public class TestRustToJavaReturn {
         NativeInvocation.getSameIntArray(arr, 3);
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime, "Get same int array even though modified", 1);
-        System.out.println("Modified array: " + Arrays.toString(arr));
+        System.out.println("UnModified array: " + Arrays.toString(arr));
         assertNotEquals(arr[0], 2);
         assertEquals(arr[0], 1);
     }
