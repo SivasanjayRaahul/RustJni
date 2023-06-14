@@ -2,12 +2,11 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 public class TestNativeMethodArgumentPass {
+
     public void printTimeDifference(long startTime, long endTime, String type) {
-        System.out.println("timeTaken for " + type + " in nano sec: " + (float) (endTime - startTime) / 100);
+        System.out.println("timeTaken for passing" + type + "to native method in nano sec: " + (float) (endTime - startTime) / 100);
     }
 
     @Test
@@ -101,5 +100,4 @@ public class TestNativeMethodArgumentPass {
         long endTime = System.currentTimeMillis();
         printTimeDifference(startTime, endTime, "Objects Array");
     }
-
 }
