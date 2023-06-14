@@ -1,6 +1,6 @@
 use jni::JNIEnv;
 use jni::objects::{JClass, JIntArray, JObject, JObjectArray, JString, JValue, ReleaseMode};
-use jni::sys::{jdouble, jint, jobject, jsize};
+use jni::sys::{jdouble, jint, jobject};
 
 #[no_mangle]
 pub extern "system" fn Java_org_example_NativeInvocation_passDouble__D(_env: JNIEnv,
@@ -82,10 +82,10 @@ pub extern "system" fn Java_org_example_NativeInvocation_printObjectsValue(mut e
                                                                            size: jint,
 ) {
     let mut data_pointer = 0;
-    let mut result;
+    let mut _result;
     while data_pointer < size {
         let element = env.get_object_array_element(&currencies, data_pointer).unwrap();
-        result = env.call_method(&element, "getValue", "()I", &[]).expect("Error").i().unwrap();
+        _result = env.call_method(&element, "getValue", "()I", &[]).expect("Error").i().unwrap();
         data_pointer = data_pointer + 1;
     }
 }
