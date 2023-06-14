@@ -47,3 +47,4 @@ bin/
 src/main/rust/rust_lib/target/
 *.h
 .idea
+.idea/workspace.xml
