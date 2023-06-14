@@ -42,7 +42,7 @@ pub extern "system" fn Java_org_example_NativeInvocation_passObjectArray(_env: J
 pub extern "system" fn Java_org_example_NativeInvocation_getString<'a>(env: JNIEnv<'a>,
                                                                        _class: JClass<'a>,
 ) -> JString<'a> {
-    let output = env.new_string("String from native call").expect("Error while creating lowercase string");
+    let output = env.new_string("String from native call").expect("Error while creating java string");
     output
 }
 
