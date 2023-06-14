@@ -96,7 +96,6 @@ pub extern "system" fn Java_org_example_NativeInvocation_getModifiedIntArray(mut
                                                                              _class: JClass,
                                                                              numbers: JIntArray,
                                                                              size: jint) {
-    println!("{:?}", numbers);
     let mut arr_position: usize = 0;
     let mut element = unsafe { env.get_array_elements(&numbers, ReleaseMode::CopyBack).unwrap() };
     while arr_position < size as usize {
@@ -110,7 +109,6 @@ pub extern "system" fn Java_org_example_NativeInvocation_getSameIntArray(mut env
                                                                          _class: JClass,
                                                                          numbers: JIntArray,
                                                                          size: jint) {
-    println!("{:?}", numbers);
     let mut arr_position: usize = 0;
     let mut element = unsafe { env.get_array_elements(&numbers, ReleaseMode::NoCopyBack).unwrap() };
     while arr_position < size as usize {
